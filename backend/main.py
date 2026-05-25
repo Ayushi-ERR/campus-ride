@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from supabase import create_client, Client
 
 load_dotenv()
@@ -17,7 +17,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -30,7 +30,7 @@ class Ride(BaseModel):
     id: str
     driverName: str
     rating: str
-    from_location: str  # mapped from "from" in JSON via alias
+    from_location: str = Field(alias="from")
     to: str
     date: str
     time: str
@@ -39,10 +39,7 @@ class Ride(BaseModel):
     seats: str
     price: str
 
-    class Config:
-        populate_by_name = True
-        # Allow the field to be set using the alias "from"
-        fields = {"from_location": {"alias": "from"}}
+    model_config = {"populate_by_name": True}
 
 
 class User(BaseModel):
