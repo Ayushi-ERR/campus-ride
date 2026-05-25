@@ -11,7 +11,7 @@ import RideConfirmationPage from './pages/RideConfirmationPage'
 import SmartRideAssistantPage from './pages/SmartRideAssistantPage'
 import VerificationPendingPage from './pages/VerificationPendingPage'
 
-const API_BASE = 'http://127.0.0.1:8000'
+const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'
 
 function App() {
   const [availableRides, setAvailableRides] = useState([])
